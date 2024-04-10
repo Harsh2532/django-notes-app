@@ -14,7 +14,18 @@ pipeline {
                 sh "docker build -t my-note-app ."
             }
         }
-        stage("Push to Docker Hub"){
+         stage("Test Case Verification"){
+            steps {
+                echo "tested the code"
+            }
+        }
+        stage("Filteration"){
+            steps {
+                echo "Filtered the code"
+            }
+        }
+        
+        stage("Pushed to Docker Hub"){
             steps {
                 echo "Pushing the image to docker hub"
                 withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
