@@ -35,12 +35,14 @@ pipeline {
                 }
             }
         }
-        stage("Deploy") {
-            steps {
-                echo "Deploying the container"
-                sh 'export PATH=$PATH:/usr/local/bin' // Export PATH to include Docker Compose directory
-                sh '/usr/local/bin/docker-compose down && /usr/local/bin/docker-compose up -d' // Specify full path to docker-compose binary
-            }
+       stage("Deploy") {
+        steps {
+            echo "Deploying the container"
+            sh 'echo "PATH: $PATH"' // Print PATH environment variable
+            sh 'which docker-compose' // Print the location of docker-compose binary
+            sh 'docker-compose down' // Execute docker-compose down
+            sh 'docker-compose up -d' // Execute docker-compose up
         }
+}
 
 }
