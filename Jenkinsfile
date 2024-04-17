@@ -37,10 +37,10 @@ pipeline {
         stage("Deploy") {
             steps {
                 echo "Deploying the container"
-                sh 'echo "PATH: $PATH"' // Print PATH environment variable
-                sh 'which docker-compose' // Print the location of docker-compose binary
-                sh 'docker-compose down' // Execute docker-compose down
-                sh 'docker-compose up -d' // Execute docker-compose up
+                sh 'echo "PATH: $PATH"'
+                sh 'which docker-compose' 
+                sh '/usr/local/bin/docker-compose down' 
+                sh '/usr/local/bin/docker-compose up -d' 
             }
         }
     }
