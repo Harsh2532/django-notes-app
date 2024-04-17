@@ -38,6 +38,7 @@ pipeline {
         stage("Deploy"){
             steps {
                 echo "Deploying the container"
+                sh 'export PATH=$PATH:/usr/local/bin'
                 sh "docker-compose down && docker-compose up -d"
                 
             }
