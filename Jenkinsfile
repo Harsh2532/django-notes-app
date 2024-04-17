@@ -44,5 +44,3 @@ pipeline {
             sh 'docker-compose up -d' // Execute docker-compose up
         }
 }
-
-}
