@@ -1,46 +1,34 @@
 pipeline {
     agent any 
     
-    stages {
-        stage("Clone Code") {
+    stages{
+        stage("Clone Code"){
             steps {
                 echo "Cloning the code"
-                git url: "https://github.com/Harsh2532/django-notes-app.git", branch: "main"
+                git url:"https://github.com/Harsh2532/django-notes-app.git", branch: "main"
             }
         }
-        stage("Build") {
+        stage("Build"){
             steps {
                 echo "Building the image"
                 sh "docker build -t my-note-app ."
             }
         }
-        stage("Test Case Verification") {
+        stage("Push to Docker Hub"){
             steps {
-                echo "Tested the code"
-            }
-        }
-        stage("Filteration") {
-            steps {
-                echo "Filtered the code"
-            }
-        }
-        stage("Pushed to Docker Hub") {
-            steps {
-                echo "Pushing the image to Docker Hub"
-                withCredentials([usernamePassword(credentialsId: "dockerhub", passwordVariable: "dockerhubPass", usernameVariable: "dockerhubUser")]) {
-                    sh "docker tag my-note-app ${env.dockerhubUser}/my-note-app:latest"
-                    sh "docker login -u ${env.dockerhubUser} -p ${env.dockerhubPass}"
-                    sh "docker push ${env.dockerhubUser}/my-note-app:latest"
+                echo "Pushing the image to docker hub"
+                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+                sh "docker tag my-note-app ${env.dockerHubUser}/my-note-app:latest"
+                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                sh "docker push ${env.dockerHubUser}/my-note-app:latest"
                 }
             }
         }
-        stage("Deploy") {
+        stage("Deploy"){
             steps {
                 echo "Deploying the container"
-                sh 'echo "PATH: $PATH"'
-                sh 'which docker-compose' 
-                sh '/usr/local/bin/docker-compose down' 
-                sh '/usr/local/bin/docker-compose up -d' 
+                sh "docker-compose down && docker-compose up -d"
+                
             }
         }
     }
