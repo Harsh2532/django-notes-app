@@ -38,11 +38,8 @@ pipeline {
         stage("Deploy") {
             steps {
                 echo "Deploying the container"
-                sh '''
-                    export PATH=$PATH:/usr/local/bin && \
-                    /usr/local/bin/docker-compose down && \
-                    /usr/local/bin/docker-compose up -d
-                '''
+                sh 'export PATH=$PATH:/usr/local/bin' // Export PATH to include Docker Compose directory
+                sh '/usr/local/bin/docker-compose down && /usr/local/bin/docker-compose up -d' // Specify full path to docker-compose binary
             }
         }
 
